@@ -28,11 +28,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.join(__dirname, 'webapp')));
+app.use(express.static(path.join('webapp')));
+app.use('/node_modules', express.static(path.join('node_modules')));
 
 app.disable('etag');
 
-//app.use('/', routes);
 app.use('/meetups', meetups);
 
 
