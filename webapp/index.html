@@ -49,8 +49,19 @@
         </div>
     </md-toolbar>
 
-    {{sorting.columnName}}
-
+    <md-list>
+        <md-list-item ng-repeat="meetup in meetups" ng-click="null">
+            <img style="width:120px;" ng-src="{{meetup.avatar_url}}" alt="" class="classname">
+            <div>
+                <h3>{{meetup.title}}</h3>
+                <p>{{meetup.description}}</p>
+                <div layout="row">
+                    <span>{{meetup.location}}</span>
+                    <span>{{meetup.start_date}}</span>
+                </div>
+            </div>
+        </md-list-item>
+    </md-list>
 
     <!--<header>-->
     <!--<div>gSpace2.0-->
@@ -80,6 +91,7 @@
 <script src="/node_modules/angular-aria/angular-aria.js"></script>
 <script src="/node_modules/angular-messages/angular-messages.js"></script>
 <script src="/node_modules/angular-material/angular-material.js"></script>
+<script src="/node_modules/angular-resource/angular-resource.js"></script>
 
 
 <script src="/scripts/app.js"></script>

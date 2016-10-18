@@ -1,4 +1,4 @@
-var app = angular.module("gspace", ["ngMaterial"])
+var app = angular.module("gspace", ["ngMaterial", "ngResource"])
     .config(function ($mdThemingProvider, $mdIconProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('grey')
@@ -9,19 +9,37 @@ var app = angular.module("gspace", ["ngMaterial"])
 
     });
 
-app.controller('MeetupsController', function($scope, $mdDialog){
+
+app.service('MeetupsDS', function ($resource) {
+    var service = this;
+
+    service.getMeetups = function () {
+        return $resource('/meetups', {}, {
+            query: {
+                method: 'GET',
+                isArray: true
+            }
+        }).query();
+    };
+
+    return service;
+});
+
+app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
     var originatorEv;
     $scope.sorting = {
         columnName: 'date',
         desc: true
     };
 
-    $scope.openMenu = function($mdOpenMenu, ev) {
+    $scope.meetups = MeetupsDS.getMeetups();
+
+    $scope.openMenu = function ($mdOpenMenu, ev) {
         originatorEv = ev;
         $mdOpenMenu(ev);
     };
 
-    $scope.sort = function sort(by){
+    $scope.sort = function sort(by) {
         $scope.sorting.columnName = by;
         $scope.sorting.desc = false;
     }
