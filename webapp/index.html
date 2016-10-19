@@ -18,6 +18,7 @@
                 <span>gSpace</span>
             </h2>
             <span flex></span>
+
             <md-button class="md-primary md-hue-1">
                 <md-icon>add</md-icon>
                 Add Meetup
@@ -29,19 +30,13 @@
                     <md-icon>swap_vert</md-icon>
                 </md-button>
                 <md-menu-content width="4">
-                    <md-menu-item>
-                        <md-button ng-click="sort('date')">
-                            Date
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="sort('title')">
-                            Title
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="sort('votes')">
-                            Votes
+                    <md-menu-item ng-repeat="item in menuItems">
+                        <md-button
+                                ng-class="{'md-accent':sorting.columnName==item.key}"
+                                ng-click="sort(item.key)">
+                            {{item.label}}
+                            <md-icon ng-if="sorting.columnName==item.key">keyboard_arrow_{{sorting.desc?'down':'up'}}
+                            </md-icon>
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -51,16 +46,18 @@
     </md-toolbar>
 
     <md-list>
-        <md-list-item ng-repeat="meetup in meetups" ng-click="null">
+        <md-list-item
+                class="md-padding"
+                ng-repeat="meetup in meetups | orderBy:sorting.columnName:sorting.desc " ng-click="null">
             <div>
                 <img style="width:120px;height:120px;" ng-src="{{meetup.avatar_url}}" class="img-circle"/>
             </div>
             <div>
-                <h3>{{meetup.title}}</h3>
-                <p>{{meetup.description}}</p>
+                <h4>{{meetup.title}}</h4>
+                <span class="meetupDescription">{{meetup.description}}</span>
                 <div layout="row">
                     <span>{{meetup.location}}</span>
-                    <span>{{meetup.start_date}}</span>
+                    <span>{{meetup.start_date | date:'longDate' }}</span>
                 </div>
             </div>
         </md-list-item>

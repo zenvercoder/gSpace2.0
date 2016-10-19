@@ -11,8 +11,8 @@ var app = angular.module("gspace", ["ngMaterial", "ngResource"])
 
 app.factory('MeetupsDS', function ($resource) {
     var data = $resource('/meetups/:meetup', {meetup: '@meetup'}, {
-        update:{
-            method:'PUT'
+        update: {
+            method: 'PUT'
         }
     });
     return data;
@@ -20,6 +20,12 @@ app.factory('MeetupsDS', function ($resource) {
 
 app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
     var originatorEv;
+    $scope.menuItems = [
+        {key: 'date', label: 'Date'},
+        {key: 'title', label: 'Title'},
+        {key: 'votes', label: 'Votes'}
+        ];
+
     $scope.sorting = {
         columnName: 'date',
         desc: true
@@ -33,10 +39,13 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
     };
 
     $scope.sort = function sort(by) {
+        if ($scope.sorting.columnName == by) {
+            $scope.sorting.desc = !$scope.sorting.desc;
+        } else {
+            $scope.sorting.desc = true;
+        }
         $scope.sorting.columnName = by;
-        $scope.sorting.desc = false;
     };
-
 });
 
 

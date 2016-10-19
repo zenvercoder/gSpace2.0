@@ -31,10 +31,7 @@ function getMeetup(id) {
             'meetups.users_id',
             'users.username',
             'users.avatar_url'
-        ).then(function(data){
-            data[0].start_date = moment(data[0].start_date).format("YYYY-MM-DD[T]hh:mm");
-            return data;
-        });
+        );
 }
 
 function getMeetups() {
@@ -51,14 +48,7 @@ function getMeetups() {
             'meetups.users_id',
             'users.username',
             'users.avatar_url'
-        ).then(function(data){
-            // format start date for every meetup
-            data.map(function(meetup){
-                meetup.start_date = moment(meetup.start_date).format("MMMM Do YYYY, hh:mm a");
-                return meetup;
-            });
-            return data;
-        });
+        );
 }
 
 function addMeetup(meetup) {
