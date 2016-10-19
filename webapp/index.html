@@ -46,9 +46,14 @@
     </md-toolbar>
 
     <md-list>
+        <div><md-input-container>
+            <label>Search</label>
+            <input ng-model="sorting.searchTerm">
+        </md-input-container>
+        </div>
         <md-list-item
                 class="md-padding"
-                ng-repeat="meetup in meetups | orderBy:sorting.columnName:sorting.desc " ng-click="null">
+                ng-repeat="meetup in meetups | filter : sorting.searchTerm |orderBy:sorting.columnName:sorting.desc " ng-click="null">
             <div>
                 <img style="width:120px;height:120px;" ng-src="{{meetup.avatar_url}}" class="img-circle"/>
             </div>
@@ -56,7 +61,13 @@
                 <h4>{{meetup.title}}</h4>
                 <span class="meetupDescription">{{meetup.description}}</span>
                 <div layout="row">
-                    <span>{{meetup.location}}</span>
+                    <span>Location:{{meetup.location}}</span>
+                </div>
+                <div layout="row">
+                    <span>Likes:</span>
+                    <span ng-class="{red:meetup.likes<0, green:meetup.likes>0}">{{meetup.likes}}</span>
+                </div>
+                <div layout="row">
                     <span>{{meetup.start_date | date:'longDate' }}</span>
                 </div>
             </div>

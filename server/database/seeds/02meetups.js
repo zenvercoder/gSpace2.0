@@ -19,7 +19,7 @@ exports.seed = function(knex, Promise) {
           title: 'Success isnt about being the best. Its about always getting better',
           likes: 6,
           description: 'Everyone of us is shadowed by an illusory person: a false self. We are not very good at recognizing illusions, least of all the ones we cherish about ourselves.',
-          location: 'location2',
+          location: 'In a Galaxy Far Far Away',
           start_date: '2016-11-10T13:40:23.83-05:00'
         }),
         knex('meetups').insert({
@@ -28,7 +28,7 @@ exports.seed = function(knex, Promise) {
           title: 'Unobtanium Now Obtainable',
           likes: 5,
           description: 'Since the late 1950s aerospace engineers have used the termunobtainiu when referring to unusual or costly materials, or when theoretically considering a material perfect for their needs in all respects, except that it does not exist. By the 1990s, the term was in wide use, even in formal engineering papers such as "Towards unobtainium new composite materials for space applications',
-          location: 'location1',
+          location: 'Pandora',
           start_date: '2016-12-10T13:40:23.83-05:00'
         }),
         knex('meetups').insert({
@@ -37,7 +37,7 @@ exports.seed = function(knex, Promise) {
           title: 'Ten step to overcoming fear',
           likes: 7,
           description: 'But nobody ever mentions the twelfth ingredient: Fear, Some people think Chuck Norris is a myth. However, some people are really myths Chuck Norris is my Homeboy.  ',
-          location: 'location3',
+          location: 'D Qar',
           start_date: '2016-12-09T13:40:23.83-05:00'
         }),
         knex('meetups').insert({
@@ -46,7 +46,7 @@ exports.seed = function(knex, Promise) {
           title: 'Duck Face is so hawt right now',
           likes: 0,
           description: 'We will talk about how to make better duck faces',
-          location: 'location4',
+          location: 'Florence, Italy',
           start_date: '2017-01-11T13:40:23.83-05:00'
         }),
         knex('meetups').insert({
@@ -55,7 +55,7 @@ exports.seed = function(knex, Promise) {
           title: 'Nope, nope, nope',
           likes: 5,
           description: 'At this meetup, we will count all the nopes',
-          location: 'location5',
+          location: 'Nopetown',
           start_date: '2016-11-30T13:40:23.83-05:00'
         })
       ])

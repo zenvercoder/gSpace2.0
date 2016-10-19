@@ -13,23 +13,35 @@ router.get('/', function (req, res, next) {
             return next(error);
         })
 });
-//
-// router.post('/new', function (req, res, next) {
-//
-//     queries.addMeetup({
-//         users_id: req.user.id,
-//         title: req.body.title,
-//         description: req.body.description,
-//         location: req.body.address,
-//         start_date: req.body.start_date
-//     })
-//         .then(function () {
-//             res.redirect('/meetups');
-//         })
-//         .catch(function (error) {
-//             return next(error);
-//         })
-// });
+
+router.get('/:id', function (req, res, next) {
+    queries.getMeetup(req.params.id)
+        .then(function (data) {
+            res.send(data);
+        })
+        .catch(function (error) {
+            return next(error);
+        })
+});
+
+
+router.post('/', function (req, res, next) {
+
+    queries.addMeetup({
+        // have to hook up authentication to use users
+        // users_id: req.user.id,
+        title: req.body.title,
+        description: req.body.description,
+        location: req.body.address,
+        start_date: req.body.start_date
+    })
+        .then(function (data) {
+            return data;
+        })
+        .catch(function (error) {
+            return next(error);
+        })
+});
 //
 // router.post('/:id/edit', function (req, res, next) {
 //     var id = req.params.id;
