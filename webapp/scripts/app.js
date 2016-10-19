@@ -9,20 +9,13 @@ var app = angular.module("gspace", ["ngMaterial", "ngResource"])
 
     });
 
-
-app.service('MeetupsDS', function ($resource) {
-    var service = this;
-
-    service.getMeetups = function () {
-        return $resource('/meetups', {}, {
-            query: {
-                method: 'GET',
-                isArray: true
-            }
-        }).query();
-    };
-
-    return service;
+app.factory('MeetupsDS', function ($resource) {
+    var data = $resource('/meetups/:meetup', {meetup: '@meetup'}, {
+        update:{
+            method:'PUT'
+        }
+    });
+    return data;
 });
 
 app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
@@ -32,7 +25,7 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
         desc: true
     };
 
-    $scope.meetups = MeetupsDS.getMeetups();
+    $scope.meetups = MeetupsDS.query();
 
     $scope.openMenu = function ($mdOpenMenu, ev) {
         originatorEv = ev;
@@ -42,7 +35,7 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
     $scope.sort = function sort(by) {
         $scope.sorting.columnName = by;
         $scope.sorting.desc = false;
-    }
+    };
 
 });
 
