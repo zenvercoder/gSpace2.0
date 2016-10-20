@@ -25,7 +25,7 @@
             </md-button>
 
             <md-menu>
-                <md-button aria-label="Open phone interactions menu" class="md-icon-button"
+                <md-button class="md-icon-button"
                            ng-click="openMenu($mdOpenMenu, $event)">
                     <md-icon>swap_vert</md-icon>
                 </md-button>
@@ -46,14 +46,16 @@
     </md-toolbar>
 
     <md-list>
-        <div><md-input-container>
-            <label>Search</label>
-            <input ng-model="sorting.searchTerm">
-        </md-input-container>
+        <div>
+            <md-input-container>
+                <label>Search</label>
+                <input ng-model="sorting.searchTerm">
+            </md-input-container>
         </div>
+        oh hai
         <md-list-item
                 class="md-padding"
-                ng-repeat="meetup in meetups | filter : sorting.searchTerm |orderBy:sorting.columnName:sorting.desc " ng-click="null">
+                ng-repeat="meetup in meetups | filter : sorting.searchTerm |orderBy:sorting.columnName:sorting.desc ">
             <div>
                 <img style="width:120px;height:120px;" ng-src="{{meetup.avatar_url}}" class="img-circle"/>
             </div>
@@ -70,32 +72,16 @@
                 <div layout="row">
                     <span>{{meetup.start_date | date:'longDate' }}</span>
                 </div>
+                <md-button class="md-icon-button" ng-click="downvote(meetup)">
+                    <md-icon>arrow_downward</md-icon>
+                </md-button>
+                <!-- meetup.likes didn't work because that's a number. it doesn't change the reference in memory-->
+                <md-button class="md-icon-button" ng-click="upvote(meetup)">
+                    <md-icon>arrow_upward</md-icon>
+                </md-button>
             </div>
         </md-list-item>
     </md-list>
-
-    <!--<header>-->
-    <!--<div>gSpace2.0-->
-    <!--</div>-->
-    <!--<div>Submit Post</div>-->
-    <!--<input type="text">Search</input>-->
-    <!--<div>Sort By:-->
-    <!--<select ng-model="sortBy">-->
-    <!--<option value="Date">Date</option>-->
-    <!--<option value="Title">Title</option>-->
-    <!--<option value="Votes">Votes</option>-->
-    <!--</select>-->
-    <!--</div>-->
-    <!--</header>-->
-
-
-    <!--<div ng-controller="gspaceController">-->
-    <!--<h1>Time & Date:</h1>-->
-    <!--<h3>{{Date | date: 'EEEE, MMMM d, yyyy'}}</h3>-->
-
-    <!--<h1>Title: {{Title}}</h1>-->
-    <!--<input ng-model="Title" type="text" placeholder="Title">-->
-    <!--</div>-->
 </div>
 <script src="/node_modules/angular/angular.js"></script>
 <script src="/node_modules/angular-animate/angular-animate.js"></script>

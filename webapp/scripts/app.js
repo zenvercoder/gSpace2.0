@@ -19,6 +19,7 @@ app.factory('MeetupsDS', function ($resource) {
 });
 
 app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
+    // used for the dropdown menu
     var originatorEv;
     $scope.menuItems = [
         {key: 'date', label: 'Date'},
@@ -46,6 +47,14 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
         }
         $scope.sorting.columnName = by;
     };
+
+    $scope.upvote = function(meetup){
+        likes = meetup.likes++;
+    }
+
+    $scope.downvote = function(meetup){
+        likes = meetup.likes--;
+    }
 });
 
 
