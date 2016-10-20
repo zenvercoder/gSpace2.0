@@ -19,7 +19,9 @@
             </h2>
             <span flex></span>
 
-            <md-button class="md-primary md-hue-1">
+            <md-button
+                    class="md-primary md-hue-1"
+                    ng-click="showForm($event)">
                 <md-icon>add</md-icon>
                 Add Meetup
             </md-button>
@@ -52,7 +54,6 @@
                 <input ng-model="sorting.searchTerm">
             </md-input-container>
         </div>
-        oh hai
         <md-list-item
                 class="md-padding"
                 ng-repeat="meetup in meetups | filter : sorting.searchTerm |orderBy:sorting.columnName:sorting.desc ">
