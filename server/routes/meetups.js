@@ -28,11 +28,11 @@ router.get('/:id', function (req, res, next) {
 router.post('/', function (req, res, next) {
 
     queries.addMeetup(req.body)
-        .then(function (data) {
-            return queries.getMeetup(data[0]);
+        .then(function (arrayOfInsertedIDs) {
+            return queries.getMeetup(arrayOfInsertedIDs[0]);
         })
-        .then(function(data){
-            res.send(data);
+        .then(function(meetup){
+            res.send(meetup);
         })
         .catch(function (error) {
             return next(error);

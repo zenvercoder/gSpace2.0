@@ -41,9 +41,8 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
             clickOutsideToClose:true,
         })
             .then(function(newMeetup) {
-                // add a new meetup
-                $scope.meetup = MeetupsDS.save(newMeetup);
-                console.log("newMeetup " + $scope.meetup.id);
+                // add a new meetup to meetups array
+                $scope.meetups.push(MeetupsDS.save(newMeetup));
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
             });

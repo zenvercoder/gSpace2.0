@@ -18,7 +18,7 @@ function Tags() {
 }
 
 function getMeetup(id) {
-    return Meetups().where('meetups.id', id)
+    return Meetups().where('meetups.id', id).first()
         .join('users', 'meetups.users_id', '=', 'users.id')
         .select(
             'meetups.id',
