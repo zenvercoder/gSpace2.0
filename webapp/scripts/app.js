@@ -6,7 +6,6 @@ var app = angular.module("gspace", ["ngMaterial", "ngResource", "ngMessages"])
 
         $mdIconProvider
             .defaultIconSet('node_modules/material-design-icons/iconfont/MaterialIcons-Regular.svg', 24);
-
     });
 
 app.factory('MeetupsDS', function ($resource) {
@@ -42,8 +41,9 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
             clickOutsideToClose:true,
         })
             .then(function(newMeetup) {
-
-                console.log("newMeetup " + newMeetup);
+                // add a new meetup
+                $scope.meetup = MeetupsDS.save(newMeetup);
+                console.log("newMeetup " + $scope.meetup.id);
             }, function() {
                 $scope.status = 'You cancelled the dialog.';
             });
