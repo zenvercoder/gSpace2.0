@@ -27,7 +27,7 @@ exports.seed = function(knex, Promise) {
           users_id: '1',
           title: 'Unobtanium Now Obtainable',
           likes: 5,
-          description: 'Since the late 1950s aerospace engineers have used the termunobtainiu when referring to unusual or costly materials, or when theoretically considering a material perfect for their needs in all respects, except that it does not exist. By the 1990s, the term was in wide use, even in formal engineering papers such as "Towards unobtainium new composite materials for space applications',
+          description: 'Since the late 1950s aerospace engineers have used the term unobtainium when referring to unusual or costly materials. In this meetup, we will talk about where to obtain unobtanium',
           location: 'Pandora',
           start_date: '2016-12-10T13:40:23.83-05:00'
         }),

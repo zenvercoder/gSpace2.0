@@ -72,6 +72,10 @@
                 </div>
                 <div layout="row">
                     <span>{{meetup.start_date | date:'longDate' }}</span>
+                    <md-button class="md-icon-button" ng-click="upvote(meetup)">
+                        <md-icon>comment</md-icon>
+                    </md-button>
+                    <span>{{meetup.body}}</span>
                 </div>
                 <md-button class="md-icon-button" ng-click="downvote(meetup)">
                     <md-icon>arrow_downward</md-icon>

@@ -22,7 +22,7 @@ app.controller('DialogController', function ($scope, $mdDialog) {
 
     $scope.save = function () {
         $mdDialog.hide($scope.meetup);
-    }
+    };
 
     $scope.cancel = function(){
         $mdDialog.cancel();
@@ -83,5 +83,6 @@ app.controller('MeetupsController', function ($scope, $mdDialog, MeetupsDS) {
         likes = meetup.likes--;
     };
 });
+
 
 

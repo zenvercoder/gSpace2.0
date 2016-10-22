@@ -37,6 +37,7 @@ function getMeetup(id) {
 function getMeetups() {
     return Meetups()
         .join('users', 'meetups.users_id', '=', 'users.id')
+        .join('comments', 'meetups.id', '=', 'comments.meetupss_id')
         .select(
             'meetups.id',
             'meetups.title',
@@ -47,7 +48,11 @@ function getMeetups() {
             'meetups.created_on',
             'meetups.users_id',
             'users.username',
-            'users.avatar_url'
+            'users.avatar_url',
+            'comments.body',
+            'comments.likes',
+            'comments.created_on',
+            'comments.updated_on'
         );
 }
 
