@@ -86,7 +86,9 @@
                     <div style="border:1px solid red;" ng-if="meetup.comments.length>0">
                        <div ng-repeat="comment in meetup.comments" style="margin-bottom: 20px;">
                            <div style="color:blue;">{{comment.username}}</div>
-                           <div>{{comment.avatar_url}}</div>
+                           <div>
+                               <img style="width:40px;height:40px;" ng-src="{{comment.avatar_url}}" class="img-circle"/>
+                           </div>
                            <span>{{comment.body}}</span>
                        </div>
                    </div>
