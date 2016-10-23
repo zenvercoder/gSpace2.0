@@ -62,61 +62,50 @@
                 <img style="width:120px;height:120px;" ng-src="{{meetup.avatar_url}}" class="img-circle"/>
             </div>
             <div>
-                <h3>{{meetup.title}}</h3>
+                <div layout="row">
+                    <h3>{{meetup.title}}</h3>
+                    <!-- meetup.likes didn't work because that's a number. it doesn't change the reference in memory-->
+                    <md-button class="md-icon-button" ng-click="upvote(meetup)">
+                        <md-icon>arrow_upward</md-icon>
+                    </md-button>
+                    <md-button class="md-icon-button" ng-click="downvote(meetup)">
+                        <md-icon>arrow_downward</md-icon>
+                    </md-button>
+                    <span ng-class="{red:meetup.likes<0, green:meetup.likes>0}">{{meetup.likes}}</span>
+                </div>
                 <span class="meetupDescription">{{meetup.description}}</span>
                 <div layout="row">
                     <span>Location:{{meetup.location}}</span>
                 </div>
                 <div layout="row">
-                    <span>Likes:</span>
-                    <span ng-class="{red:meetup.likes<0, green:meetup.likes>0}">{{meetup.likes}}</span>
-                </div>
-                <div layout="row">
                     <span>{{meetup.start_date | date:'longDate' }}</span>
-                </div>
-
-
-
-
-                <div>
-                    <!--peekABoo starts out false b/c we haven't defined it anywhere-->
-                    <!-- but when the button is clicked, it will change from undefined to true-->
-                    <!-- next time button is clicked it will change from true to false-->
-                    <md-button class="md-icon-button" ng-click="meetup.peekABoo = !meetup.peekABoo">
-                        <md-icon>comment</md-icon>
-                    </md-button>
-                    <span ng-if="meetup.comments.length<1">No comments yet</span>
-                    <span ng-if="meetup.comments.length>0">
+                    <!--comments-->
+                    <div>
+                        <!--peekABoo starts out false b/c we haven't defined it anywhere-->
+                        <!-- but when the button is clicked, it will change from undefined to true-->
+                        <!-- next time button is clicked it will change from true to false-->
+                        <md-button class="md-icon-button" ng-click="meetup.peekABoo = !meetup.peekABoo">
+                            <md-icon>comment</md-icon>
+                        </md-button>
+                        <span ng-if="meetup.comments.length<1">No comments yet</span>
+                        <span ng-if="meetup.comments.length>0">
                         {{meetup.comments.length}}
-                        <ng-pluralize count="meetup.comments.length" when="{'one': 'comment', 'other': 'comments'}"></ng-pluralize></span>
-
-                    <div style="border:1px solid red;" ng-if="meetup.comments.length>0" ng-show="meetup.peekABoo">
-                       <div ng-repeat="comment in meetup.comments" style="margin-bottom: 20px;">
-                           <div style="color:blue;">{{comment.username}}</div>
-                           <div>
-                               <img style="width:40px;height:40px;" ng-src="{{comment.avatar_url}}" class="img-circle"/>
-                           </div>
-                           <span>{{comment.body}}</span>
-                       </div>
-                   </div>
+                        <ng-pluralize count="meetup.comments.length"
+                                      when="{'one': 'comment', 'other': 'comments'}"></ng-pluralize></span>
+                    </div>
                 </div>
 
+                <div style="border:1px solid red;" ng-if="meetup.comments.length>0" ng-show="meetup.peekABoo">
+                    <div ng-repeat="comment in meetup.comments" style="margin-bottom: 20px;">
+                        <div style="color:blue;">{{comment.username}}</div>
+                        <div>
+                            <img style="width:40px;height:40px;" ng-src="{{comment.avatar_url}}"
+                                 class="img-circle"/>
+                        </div>
+                        <span>{{comment.body}}</span>
+                    </div>
+                </div>
 
-
-
-
-
-
-
-
-
-                <md-button class="md-icon-button" ng-click="downvote(meetup)">
-                    <md-icon>arrow_downward</md-icon>
-                </md-button>
-                <!-- meetup.likes didn't work because that's a number. it doesn't change the reference in memory-->
-                <md-button class="md-icon-button" ng-click="upvote(meetup)">
-                    <md-icon>arrow_upward</md-icon>
-                </md-button>
             </div>
             <md-divider></md-divider>
         </md-list-item>
