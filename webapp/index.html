@@ -55,13 +55,14 @@
             </md-input-container>
         </div>
         <md-list-item
+                layout-align="start"
                 class="md-padding"
                 ng-repeat="meetup in meetups | filter : sorting.searchTerm |orderBy:sorting.columnName:sorting.desc ">
             <div>
                 <img style="width:120px;height:120px;" ng-src="{{meetup.avatar_url}}" class="img-circle"/>
             </div>
             <div>
-                <h4>{{meetup.title}}</h4>
+                <h3>{{meetup.title}}</h3>
                 <span class="meetupDescription">{{meetup.description}}</span>
                 <div layout="row">
                     <span>Location:{{meetup.location}}</span>
@@ -74,8 +75,14 @@
                     <span>{{meetup.start_date | date:'longDate' }}</span>
                 </div>
 
+
+
+
                 <div>
-                    <md-button class="md-icon-button" ng-click="TODO">
+                    <!--peekABoo starts out false b/c we haven't defined it anywhere-->
+                    <!-- but when the button is clicked, it will change from undefined to true-->
+                    <!-- next time button is clicked it will change from true to false-->
+                    <md-button class="md-icon-button" ng-click="meetup.peekABoo = !meetup.peekABoo">
                         <md-icon>comment</md-icon>
                     </md-button>
                     <span ng-if="meetup.comments.length<1">No comments yet</span>
@@ -83,7 +90,7 @@
                         {{meetup.comments.length}}
                         <ng-pluralize count="meetup.comments.length" when="{'one': 'comment', 'other': 'comments'}"></ng-pluralize></span>
 
-                    <div style="border:1px solid red;" ng-if="meetup.comments.length>0">
+                    <div style="border:1px solid red;" ng-if="meetup.comments.length>0" ng-show="meetup.peekABoo">
                        <div ng-repeat="comment in meetup.comments" style="margin-bottom: 20px;">
                            <div style="color:blue;">{{comment.username}}</div>
                            <div>
@@ -93,6 +100,16 @@
                        </div>
                    </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
                 <md-button class="md-icon-button" ng-click="downvote(meetup)">
                     <md-icon>arrow_downward</md-icon>
                 </md-button>
@@ -101,6 +118,7 @@
                     <md-icon>arrow_upward</md-icon>
                 </md-button>
             </div>
+            <md-divider></md-divider>
         </md-list-item>
     </md-list>
 </div>
