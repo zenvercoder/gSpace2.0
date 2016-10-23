@@ -71,9 +71,18 @@
                     <md-button class="md-icon-button" ng-click="downvote(meetup)">
                         <md-icon>arrow_downward</md-icon>
                     </md-button>
-                    <span style="line-height:24px; margin-top: 7px;" ng-class="{red:meetup.likes<0, green:meetup.likes>0}">{{meetup.likes}}</span>
+                    <span style="line-height:24px; margin-top: 7px;"
+                          ng-class="{red:meetup.likes<0, green:meetup.likes>0}">{{meetup.likes}}</span>
                     <span flex></span>
-                    <div layout-align="end center"> by: </div>
+                    <!--<div layout="row" layout-align="end center">-->
+                        <div>
+                            by: {{meetup.username}}
+                        </div>
+                        <!--<span flex></span>-->
+                        <!--<img layout-align="center"-->
+                             <!--style="width:30px;height:30px;" ng-src="{{meetup.avatar_url}}"-->
+                             <!--class="host-img"/>-->
+                    <!--</div>-->
                 </div>
 
                 <span class="meetupDescription">{{meetup.description}}</span>
