@@ -72,10 +72,24 @@
                 </div>
                 <div layout="row">
                     <span>{{meetup.start_date | date:'longDate' }}</span>
-                    <md-button class="md-icon-button" ng-click="upvote(meetup)">
+                </div>
+
+                <div>
+                    <md-button class="md-icon-button" ng-click="TODO">
                         <md-icon>comment</md-icon>
                     </md-button>
-                    <span>{{meetup.body}}</span>
+                    <span ng-if="meetup.comments.length<1">No comments yet</span>
+                    <span ng-if="meetup.comments.length>0">
+                        {{meetup.comments.length}}
+                        <ng-pluralize count="meetup.comments.length" when="{'one': 'comment', 'other': 'comments'}"></ng-pluralize></span>
+
+                    <div style="border:1px solid red;" ng-if="meetup.comments.length>0">
+                       <div ng-repeat="comment in meetup.comments" style="margin-bottom: 20px;">
+                           <div style="color:blue;">{{comment.username}}</div>
+                           <div>{{comment.avatar_url}}</div>
+                           <span>{{comment.body}}</span>
+                       </div>
+                   </div>
                 </div>
                 <md-button class="md-icon-button" ng-click="downvote(meetup)">
                     <md-icon>arrow_downward</md-icon>

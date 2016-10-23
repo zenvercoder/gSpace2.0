@@ -5,11 +5,11 @@ function Meetups() {
     return knex('meetups');
 }
 
-function Meetups_Tags()  {
+function Meetups_Tags() {
     return knex('meetups_tags')
 }
 
-function Comments()  {
+function Comments() {
     return knex('comments')
 }
 
@@ -37,7 +37,8 @@ function getMeetup(id) {
 function getMeetups() {
     return Meetups()
         .join('users', 'meetups.users_id', '=', 'users.id')
-        .join('comments', 'meetups.id', '=', 'comments.meetupss_id')
+        .leftOuterJoin('comments', 'meetups.id', 'comments.meetups_id')
+        .join('users as comments_user', 'comments.users_id', '=', 'comments_user.id')
         .select(
             'meetups.id',
             'meetups.title',
@@ -49,11 +50,53 @@ function getMeetups() {
             'meetups.users_id',
             'users.username',
             'users.avatar_url',
-            'comments.body',
-            'comments.likes',
-            'comments.created_on',
-            'comments.updated_on'
-        );
+            'comments.id as comments_id',
+            'comments.body as comments_body',
+            'comments.likes as comments_likes',
+            'comments.created_on as comments_created_on',
+            'comments.updated_on as comments_updated_on',
+            'comments_user.username as comments_username',
+            'comments_user.avatar_url as comments_avatar_url'
+        )
+        .then(function (meetups) {
+            var mappedMeetups = {};
+            meetups.forEach(function (meetup) {
+                if (mappedMeetups.hasOwnProperty(meetup.id)) {
+                    mappedMeetups[meetup.id].comments.push(extractCommentFromMeetup(meetup));
+                } else {
+                    meetup.comments = [];
+                    var comment = extractCommentFromMeetup(meetup);
+                    if(comment)
+                        meetup.comments.push(comment);
+                    // remove the source data from meetup to clean it up and reduce network traffic
+                    delete meetup.comments_id;
+                    delete meetup.comments_body;
+                    delete meetup.comments_likes;
+                    delete meetup.comments_created_on;
+                    delete meetup.comments_updated_on;
+                    delete meetup.comments_username;
+                    delete meetup.comments_avatar_url
+
+                    mappedMeetups[meetup.id] = meetup;
+                }
+            });
+            var meetupsArray = Object.keys(mappedMeetups).map(key => mappedMeetups[key]);
+            return meetupsArray;
+        });
+}
+
+var extractCommentFromMeetup = function extractCommentFromMeetup(meetup) {
+    if(!meetup.comments_id)
+        return;
+    var comment = {};
+    comment.id = meetup.comments_id;
+    comment.body = meetup.comments_body;
+    comment.likes = meetup.comments_likes;
+    comment.created_on = meetup.comments_created_on;
+    comment.updated_on = meetup.comments_updated_on;
+    comment.username = meetup.comments_username;
+    comment.avatar_url = meetup.comments_avatar_url;
+    return comment;
 }
 
 function addMeetup(meetup) {
@@ -86,162 +129,3 @@ module.exports = {
     updateMeetup: updateMeetup,
     deleteMeetup: deleteMeetup
 };
-
-
-
-
-
-
-
-
-
-
-
-
-// function Meetups_Tags() {
-//     return knex('meetups_tags')
-// }
-//
-// function Comments() {
-//     return knex('comments')
-// }
-//
-// function Tags() {
-//     return knex('tags')
-// }
-//
-// module.exports = {
-//
-//     getAllMeetups: function () {
-//         return Meetups().orderBy('created_on', 'desc')
-//     },
-//     getMeetupById: function (meetup_id) {
-//         return Meetups().where('id', meetup_id);
-//     },
-//     addMeetup: function (users_id, title, description, link) {
-//         return Meetups().insert({
-//             users_id: users_id,
-//             title: title,
-//             description: description,
-//             link: link,
-//             created_on: new Date(),
-//             updated_on: new Date()
-//         })
-//             .returning('id');
-//     },
-//     updateMeetup: function (meetup_id, title, description, link) {
-//         return Meetups().where('id', meetup_id).update({
-//             title: title,
-//             description: description,
-//             link: link,
-//             updated_on: new Date()
-//         })
-//             .returning('id');
-//     },
-//     deleteMeetup: function (meetup_id) {
-//         return Meetups().where('id', meetup_id).del();
-//     },
-//     addLikeToMeetup: function (meetup_id, likes) {
-//         return Meetups().where('id', meetup_id).update({
-//             likes: likes += 1
-//         }).returning('likes', 'id')
-//     },
-//     getMeetupLikes: function (meetup_id) {
-//         return Meetups().where('id', meetup_id)
-//     },
-//     getMeetupComments: function (meetup_id) {
-//         return Meetups().where('id')
-//     },
-//     getMeetupTags: function (meetup_id) {
-//         return Meetups().select('meetup.id as meetup_id', 'meetup.title as meetup_title', "meetup.link as link", 'meetup.likes as likes', 'description')
-//             .then(function (meetupData) {
-//                 return Tags().join('meetups_tags', 'tags.id', 'meetups_tags.tag_id')
-//                     .then(function (tagData) {
-//                         // console.log(tagData)
-//                         for (var i = 0; i < meetupData.length; i++) {
-//                             meetupData[i].tags = []
-//                             for (var j = 0; j < tagData.length; j++) {
-//                                 if (tagData[j].meetup_id === meetupData[i].meetup_id) {
-//                                     meetupData[i]["tags"].push(tagData[j].name)
-//                                 }
-//                             }
-//                         }
-//                         console.log(meetupData)
-//                         return meetupData
-//                     })
-//             })
-//     },
-//     // .leftJoin('meetups_tags', 'meetup.id', 'meetups_tags.meetup_id')
-//     // .join('tags', 'meetups_tags.tag_id', 'tags.id')
-//     // .orderBy('title')
-//     getAllMeetups: function () {
-//         return Meetups().orderBy('created_on', 'desc')
-//     },
-//     getMeetupById: function (meetup_id) {
-//         return Meetups().where('id', meetup_id);
-//     },
-//     addMeetup: function (users_id, title, description, link) {
-//         return Meetups().insert({
-//             users_id: users_id,
-//             title: title,
-//             description: description,
-//             link: link,
-//             created_on: new Date(),
-//             updated_on: new Date()
-//         })
-//             .returning('id');
-//     },
-//     updateMeetup: function (meetup_id, title, description, link) {
-//         return Meetups().where('id', meetup_id).update({
-//             title: title,
-//             description: description,
-//             link: link,
-//             updated_on: new Date()
-//         })
-//             .returning('id');
-//     },
-//     deleteMeetup: function (meetup_id) {
-//         return Meetups().where('id', meetup_id).del();
-//     },
-//     addLikeToMeetup: function (meetup_id, likes) {
-//         return Meetups().where('id', meetup_id).update({
-//             likes: likes += 1
-//         }).returning('likes', 'id')
-//     },
-//     getMeetupLikes: function (meetup_id) {
-//         return Meetups().where('id', meetup_id)
-//     },
-//     getMeetupComments: function (meetup_id) {
-//         return Meetups().where('id')
-//     },
-//     getMeetupTags: function (meetup_id) {
-//         return Meetups().join('users', 'meetup.users_id', 'users.id').select('avatar_url', 'meetup.id as meetup_id', 'meetup.title as meetup_title', "meetup.link as link", 'meetup.likes as likes', 'description', 'users_id')
-//             .then(function (meetupData) {
-//                 return Tags().join('meetups_tags', 'tags.id', 'meetups_tags.tag_id')
-//                     .then(function (tagData) {
-//                         // console.log(tagData)
-//                         for (var i = 0; i < meetupData.length; i++) {
-//                             meetupData[i].tags = []
-//                             for (var j = 0; j < tagData.length; j++) {
-//                                 if (tagData[j].meetup_id === meetupData[i].meetup_id) {
-//                                     meetupData[i]["tags"].push(tagData[j].name)
-//                                 }
-//                             }
-//                         }
-//                         return meetupData
-//                     })
-//             })
-//     },
-//     addTagToMeetup: function (meetup_id, tag_id) {
-//         return Meetups_Tags().insert({
-//             meetup_id: meetup_id,
-//             tag_id: tag_id
-//         })
-//     },
-//     addTag: function (meetup_id, tag_id) {
-//         return Tags().insert({
-//             name: name,
-//             created_at: new Date()
-//         })
-//     }
-// }

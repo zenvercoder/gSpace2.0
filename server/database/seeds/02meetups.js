@@ -34,7 +34,7 @@ exports.seed = function(knex, Promise) {
         knex('meetups').insert({
           id: 4,
           users_id: '3',
-          title: 'Ten step to overcoming fear',
+          title: 'Ten steps to overcoming fear',
           likes: 7,
           description: 'But nobody ever mentions the twelfth ingredient: Fear, Some people think Chuck Norris is a myth. However, some people are really myths Chuck Norris is my Homeboy.  ',
           location: 'D Qar',

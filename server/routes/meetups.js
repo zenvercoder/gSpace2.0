@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var queries = require('../database/queries/meetups_queries');
-var moment = require('moment');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
